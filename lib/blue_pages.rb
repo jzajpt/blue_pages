@@ -10,5 +10,7 @@ module BluePages
   end
 
   mattr_accessor :route_prefix
+  
+  mattr_accessor :model_includes
 
 end
