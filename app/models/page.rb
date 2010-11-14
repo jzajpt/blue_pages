@@ -11,9 +11,13 @@ class Page
   field :path
   field :metadata, :type => Hash
   field :content
+  field :published, :type => Boolean, :default => true 
 
   validates_presence_of   :title
   validates_uniqueness_of :title
+  
+  scope :published,   where(:published => true)
+  scope :unpublished, where(:published => false)
 
   after_rearrange :rebuild_path
 
