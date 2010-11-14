@@ -1,10 +1,12 @@
 # encoding: utf-8
 
-class Page
+class BluePages::Page
 
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Tree
+  
+  store_in :blue_pages
 
   field :title
   field :permalink

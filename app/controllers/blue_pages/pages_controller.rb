@@ -1,11 +1,11 @@
 # encoding: utf-8
 
-class PagesController < ApplicationController
+class BluePages::PagesController < ::ApplicationController
 
   respond_to :html
 
   def show
-    @page = Page.where(:path => params[:path]).first
+    @page = BluePages::Page.where(:path => params[:path]).first
     unless @page
       render_404
     end

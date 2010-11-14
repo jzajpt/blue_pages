@@ -14,7 +14,7 @@ begin
     gem.email = "jzajpt@blueberry.cz"
     gem.homepage = "http://github.com/jzajpt/blue_pages"
     gem.authors = ["Jiří Zajpt"]
-    gem.files = Dir["{lib}/**/*", "{config}/**/*"]
+    gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*"]
     # other fields that would normally go in your gemspec
     # like authors, email and has_rdoc can also be included here
   end
