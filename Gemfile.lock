@@ -1,11 +1,13 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    activemodel (3.0.1)
-      activesupport (= 3.0.1)
+    RedCloth (4.2.3)
+    activemodel (3.0.3)
+      activesupport (= 3.0.3)
       builder (~> 2.1.2)
-      i18n (~> 0.4.1)
-    activesupport (3.0.1)
+      i18n (~> 0.4)
+    activesupport (3.0.3)
+    bluecloth (2.0.9)
     bson (1.1.2)
     builder (2.1.2)
     i18n (0.4.2)
@@ -25,5 +27,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  RedCloth (~> 4.2.3)
+  bluecloth (~> 2.0.9)
   mongoid (~> 2.0.0.beta.20)
   mongoid-tree

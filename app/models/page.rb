@@ -20,9 +20,11 @@ class Page
   field :metadata, :type => Hash
   field :content
   field :published, :type => Boolean, :default => true
+  field :filter,    :default => 'none'
 
   validates_presence_of   :title
   validates_uniqueness_of :title
+  validates_inclusion_of  :filter, :in => %w( none markdown )
 
   scope :published,   where(:published => true)
   scope :unpublished, where(:published => false)
@@ -36,6 +38,16 @@ class Page
 
   def to_s
     title
+  end
+
+  def to_html
+    filters = { 'markdown' => BlueCloth,
+                'textile'  => RedCloth }
+    if filters.include?(self.filter)
+      filters[self.filter].new(self.content).to_html
+    else
+      self.content
+    end
   end
 
   protected

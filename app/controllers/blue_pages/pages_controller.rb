@@ -14,7 +14,7 @@ class BluePages::PagesController < ::ApplicationController
   end
 
   protected
-  
+
   def render_page
     if BluePages.layout.present?
       render_text
@@ -28,7 +28,7 @@ class BluePages::PagesController < ::ApplicationController
   end
 
   def render_text
-    render :text => @page.content, :layout => BluePages.layout
+    render :text => @page.to_html, :layout => BluePages.layout
   end
 
   def render_404
