@@ -5,7 +5,7 @@ class BluePages::PagesController < ::ApplicationController
   respond_to :html
 
   def show
-    @page = BluePages::Page.where(:path => params[:path]).first
+    @page = ::Page.where(:path => params[:path]).first
     if @page
       render_page
     else
@@ -14,9 +14,21 @@ class BluePages::PagesController < ::ApplicationController
   end
 
   protected
-
+  
   def render_page
+    if BluePages.layout.present?
+      render_text
+    else
+      render_app_page
+    end
+  end
+
+  def render_app_page
     render 'pages/show'
+  end
+
+  def render_text
+    render :text => @page.content, :layout => BluePages.layout
   end
 
   def render_404

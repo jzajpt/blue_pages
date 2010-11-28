@@ -1,12 +1,14 @@
 # encoding: utf-8
 
-class BluePages::Page
+require 'mongoid/tree'
+
+class Page
 
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Tree
-  
-  BluePages.model_includes.each do |mod|
+
+  (BluePages.model_includes || []).each do |mod|
     include mod
   end
 
@@ -31,7 +33,7 @@ class BluePages::Page
     write_attribute(:permalink, Permalink.from(new_title))
     write_attribute(:title, new_title)
   end
-  
+
   def to_s
     title
   end

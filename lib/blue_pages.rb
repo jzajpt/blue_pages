@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'permalink'
+
 module BluePages
 
   class Engine < Rails::Engine
@@ -10,7 +12,7 @@ module BluePages
   end
 
   mattr_accessor :route_prefix
-  
+  mattr_accessor :layout
   mattr_accessor :model_includes
 
 end
