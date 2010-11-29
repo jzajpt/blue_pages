@@ -1,6 +1,8 @@
 # encoding: utf-8
 
 require 'mongoid/tree'
+require 'bluecloth'
+require 'redcloth'
 
 class Page
 
