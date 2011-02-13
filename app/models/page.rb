@@ -19,10 +19,11 @@ class Page
   field :title
   field :permalink
   field :path
-  field :metadata, :type => Hash
   field :content
-  field :published, :type => Boolean, :default => true
-  field :filter,    :default => 'none'
+  field :metadata,         :type => Hash
+  field :published,        :type => Boolean, :default => true
+  field :custom_permalink, :type => Boolean, :default => false
+  field :filter,           :default => 'none'
 
   validates_presence_of   :title
   validates_uniqueness_of :title
@@ -34,7 +35,7 @@ class Page
   after_rearrange :rebuild_path
 
   def title=(new_title)
-    write_attribute(:permalink, Permalink.from(new_title))
+    write_attribute(:permalink, Permalink.from(new_title)) unless self.custom_permalink?
     write_attribute(:title, new_title)
   end
 
