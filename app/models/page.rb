@@ -34,9 +34,15 @@ class Page
 
   after_rearrange :rebuild_path
 
+  # Sets title and generates permalink if custom permalink is disabled.
   def title=(new_title)
     write_attribute(:permalink, Permalink.from(new_title)) unless self.custom_permalink?
     write_attribute(:title, new_title)
+  end
+  
+  # Sets permalink only if custom permalink is enabled.
+  def permalink=(permalink)
+    write_attribute(:permalink, permalink) if self.custom_permalink?
   end
 
   def to_s
