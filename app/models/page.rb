@@ -20,7 +20,7 @@ class Page
   field :permalink
   field :path
   field :content
-  field :metadata,         :type => Hash
+  field :meta_data,        :type => Hash
   field :published,        :type => Boolean, :default => true
   field :custom_permalink, :type => Boolean, :default => false
   field :filter,           :default => 'none'
