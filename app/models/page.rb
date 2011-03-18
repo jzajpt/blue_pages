@@ -9,6 +9,7 @@ class Page
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Tree
+  include LocalizedKeys
 
   (BluePages.model_includes || []).each do |mod|
     include mod
@@ -16,10 +17,10 @@ class Page
 
   store_in :blue_pages
 
-  field :title
+  i18n_field :title
+  i18n_field :content
   field :permalink
   field :path
-  field :content
   field :meta_data,        :type => Hash
   field :published,        :type => Boolean, :default => true
   field :custom_permalink, :type => Boolean, :default => false
@@ -32,6 +33,7 @@ class Page
   scope :published,   where(:published => true)
   scope :unpublished, where(:published => false)
 
+  before_save     :check_permalink_presence
   after_rearrange :rebuild_path
 
   # Sets title and generates permalink if custom permalink is disabled.
@@ -48,20 +50,37 @@ class Page
   def to_s
     title
   end
+  
+  def preferred_content
+    lang = I18n.locale.to_s
+    if content(lang).present?
+      content(lang)
+    else
+      content
+    end
+  end
 
   def to_html
+    content = I18n.locale
     filters = { 'markdown' => BlueCloth,
                 'textile'  => RedCloth }
     if filters.include?(self.filter)
-      filters[self.filter].new(self.content).to_html
+      filters[self.filter].new(self.preferred_content).to_html
     else
-      self.content
+      self.preferred_content
     end
   end
 
   protected
+  
+  def check_permalink_presence
+    unless self.permalink.present? || self.custom_permalink?
+      write_attribute(:permalink, Permalink.from(title)) if title
+    end
+  end
 
   def rebuild_path
+    check_permalink_presence
     self.path = self.ancestors_and_self.collect(&:permalink).join('/')
   end
 

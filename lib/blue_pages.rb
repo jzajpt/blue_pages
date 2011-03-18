@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'permalink'
+require 'blue_pages/localized_keys'
 
 module BluePages
 
