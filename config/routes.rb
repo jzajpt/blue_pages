@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-Rails::Application.routes.draw do
+Rails.application.routes.draw do
 
 
   if BluePages.route_prefix.present?
