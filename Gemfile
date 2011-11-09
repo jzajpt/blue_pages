@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'mongoid',  '~> 2.0.0.beta.20'
+gem 'mongoid',  '~> 2.0'
 gem 'mongoid-tree', :require => 'mongoid/tree'
 
 gem 'bluecloth', '~> 2.0.9'
