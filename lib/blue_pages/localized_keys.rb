@@ -46,7 +46,6 @@ module LocalizedKeys
           args.first
         locale_attr = read_attribute(key_name)
         locale = locale_attr.keys.first unless locale
-        p locale
         locale_attr[locale || ''] if locale_attr
       end
 
