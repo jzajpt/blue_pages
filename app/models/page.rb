@@ -15,7 +15,7 @@ class Page
     include mod
   end
 
-  store_in :blue_pages
+  store_in collection: :blue_pages
 
   i18n_field :title
   i18n_field :content
@@ -41,7 +41,7 @@ class Page
     write_attribute(:permalink, Permalink.from(new_title)) unless self.custom_permalink?
     write_attribute(:title, new_title)
   end
-  
+
   # Sets permalink only if custom permalink is enabled.
   def permalink=(permalink)
     write_attribute(:permalink, permalink) if self.custom_permalink?
@@ -50,7 +50,7 @@ class Page
   def to_s
     title
   end
-  
+
   def preferred_content
     lang = I18n.locale.to_s
     if content(lang).present?
@@ -72,7 +72,7 @@ class Page
   end
 
   protected
-  
+
   def check_permalink_presence
     unless self.permalink.present? || self.custom_permalink?
       write_attribute(:permalink, Permalink.from(title)) if title
