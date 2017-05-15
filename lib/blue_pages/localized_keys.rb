@@ -65,54 +65,50 @@ module LocalizedKeys
   end
 
 
-  module InstanceMethods
 
-    def method_missing(name, *args)
-      if self.respond_to_dynamic?(name)
-        name.to_s =~ /(.*)_([a-z]{2})(=)??$/
-        key, locale, assignment = $1, $2, $3
-        localized_key = :"#{key}_locales"
+  def method_missing(name, *args)
+    if self.respond_to_dynamic?(name)
+      name.to_s =~ /(.*)_([a-z]{2})(=)??$/
+      key, locale, assignment = $1, $2, $3
+      localized_key = :"#{key}_locales"
 
-        if assignment.nil?
-          value = send(localized_key)
-          value[locale] if value
-        elsif
-          value = send(localized_key)
-          send(:"#{localized_key}=", {}) unless value
-          send(localized_key)[locale] = args.first
-        end
-      else
-        super
+      if assignment.nil?
+        value = send(localized_key)
+        value[locale] if value
+      elsif
+        value = send(localized_key)
+        send(:"#{localized_key}=", {}) unless value
+        send(localized_key)[locale] = args.first
+      end
+    else
+      super
+    end
+  end
+
+  def respond_to?(*args)
+    super || self.respond_to_dynamic?(args.first)
+  end
+
+  protected
+
+  def respond_to_dynamic?(name)
+    if name.to_s =~ /(.*)_([a-z]{2})=?$/
+      key = $1
+      self.class.localized_keys.include?(key.to_sym)
+    else
+      false
+    end
+  end
+
+  def normalize_language
+    self.class.localized_keys.each do |key|
+      locales = self.send(:"#{key}_locales")
+
+      if locales && locales.has_key?("") && default = self.class.default_language(self)
+        locales[default] = locales[""]
+        locales.delete("")
       end
     end
-
-    def respond_to?(*args)
-      super || self.respond_to_dynamic?(args.first)
-    end
-
-    protected
-
-    def respond_to_dynamic?(name)
-      if name.to_s =~ /(.*)_([a-z]{2})=?$/
-        key = $1
-        self.class.localized_keys.include?(key.to_sym)
-      else
-        false
-      end
-    end
-
-    def normalize_language
-      self.class.localized_keys.each do |key|
-        locales = self.send(:"#{key}_locales")
-
-        if locales && locales.has_key?("") && default = self.class.default_language(self)
-          locales[default] = locales[""]
-          locales.delete("")
-        end
-      end
-    end
-
   end
 
 end
-
