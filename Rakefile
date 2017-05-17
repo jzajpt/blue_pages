@@ -2,7 +2,6 @@
 
 require 'rubygems'
 require 'rake'
-require 'rake/rdoctask'
 
 
 begin
@@ -22,14 +21,3 @@ begin
 rescue
   puts "Jeweler or one of its dependencies is not installed."
 end
-
-
-desc 'Generate documentation for the pages plugin.'
-Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'Pages'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
-
